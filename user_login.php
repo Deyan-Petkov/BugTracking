@@ -17,10 +17,16 @@
 	<body class="is-preload">
 
     <?php
+    session_start();
+    require 'libs/db.php';
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['login'])) { //user logging in
 
             require 'libs/login.php';
+        }
+        elseif (isset($_POST['register'])) { //user registering
+
+            require 'register.php';
 
         }
     }

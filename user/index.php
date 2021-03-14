@@ -1,3 +1,16 @@
+<?php
+session_start();
+// Check if user is logged in using the session variable
+/*if ( $_SESSION['logged_in'] != 1 && $_SESSION['priviledge']!='3') {
+    echo "<script type='text/javascript'>window.location.href = '../index.php';</script>";
+}
+else {
+    // Makes it easier to read
+    $first_name = $_SESSION['first_name'];
+    $last_name = $_SESSION['last_name'];
+    $id = $_SESSION['id'];
+}*/
+?>
 <!DOCTYPE HTML>
 <!--
 	Industrious by TEMPLATED
@@ -11,12 +24,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-        <link rel="stylesheet" href="assets/css/bootstrap.css.css" />
+        <link rel="stylesheet" href="/assets/css/main.css" />
+        <link rel="stylesheet" href="/assets/css/bootstrap.css.css" />
 	</head>
 	<body class="is-preload">
 
-		<?php include 'include/header.php';?>
+		<?php include '../include/header.php';?>
 
 		<!-- Banner -->
 			<section id="banner">
@@ -24,7 +37,7 @@
 					<h1>Ticketing</h1>
 					<p>Best ticketing solution for all kinds of businesses.</p>
 				</div>
-				<video autoplay loop muted playsinline src="images/banner.mp4"></video>
+				<video autoplay loop muted playsinline src="/images/banner.mp4"></video>
 			</section>
 
 		<!-- Highlights -->
@@ -38,19 +51,19 @@
 						<section>
 							<div class="content">
 								<header>
-									<a href="/user_login.php" class="icon fa-user"><span class="label">Icon</span></a>
-									<h3>User login</h3>
+									<a href="/user/submit_ticket.php" class="icon fa-user"><span class="label">Icon</span></a>
+									<h3>New ticket</h3>
 								</header>
-								<p>Please login if you are the user.</p>
+								<p>Submit a new ticket.</p>
 							</div>
 						</section>
                         <section>
                             <div class="content">
                                 <header>
-                                    <a href="/staff_login.php" class="icon fa-vcard-o"><span class="label">Icon</span></a>
-                                    <h3>Staff login</h3>
+                                    <a href="/user/see_tickets.php" class="icon fa-vcard-o"><span class="label">Icon</span></a>
+                                    <h3>See tickets</h3>
                                 </header>
-                                <p>Please login if you are staff.</p>
+                                <p>See all submitted tickets.</p>
                             </div>
                         </section>
                         <section>
@@ -69,14 +82,14 @@
 
 
 
-		<?php include 'include/footer.php';?>
+		<?php include '../include/footer.php';?>
 
 		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/browser.min.js"></script>
+			<script src="/assets/js/breakpoints.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+			<script src="/assets/js/main.js"></script>
 
 	</body>
 </html>

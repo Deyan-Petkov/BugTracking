@@ -1,4 +1,6 @@
 <?php
+require 'libs/db.php';
+
 /* User login process, checks if user exists and password is correct */
 
 // Escape email to protect against SQL injections
@@ -15,12 +17,14 @@ else { // User exists
     if ( password_verify($_POST['password'], $user['password']) ) {
 
         $_SESSION['email'] = $user['email'];
+        $_SESSION['user_id'] = $user['id'];
         $_SESSION['first_name'] = $user['first_name'];
         $_SESSION['last_name'] = $user['last_name'];
         $_SESSION['active'] = $user['active'];
 
         // This is how we'll know the user is logged in
         $_SESSION['logged_in'] = true;
+        $_SESSION['privilege']='3';
 
         echo "<script type='text/javascript'>window.location.href = 'user';</script>";
     }

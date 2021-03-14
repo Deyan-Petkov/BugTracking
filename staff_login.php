@@ -17,13 +17,17 @@
 	<body class="is-preload">
 
     <?php
+    session_start();
+    require 'libs/db.php';
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['login'])) { //user logging in
 
             require 'libs/staff_login.php';
 
         }
-        else{
+        elseif (isset($_POST['register'])) { //user registering
+
+            require 'register.php';
 
         }
     }
@@ -58,7 +62,7 @@
                                 <!-- Break -->
                                 <div class="col-12">
                                     <ul class="actions">
-                                        <li><button type="submit" value="Login" class="primary" ></button></li>
+                                        <li><button type="submit" value="Login" class="primary" name="login"></button></li>
                                     </ul>
                                 </div>
                             </div>

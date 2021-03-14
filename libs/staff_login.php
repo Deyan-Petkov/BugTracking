@@ -22,7 +22,7 @@ else { // User exists
         // This is how we'll know the user is logged in
         $_SESSION['logged_in'] = true;
 
-        echo "<script type='text/javascript'>window.location.href = 'user';</script>";
+        echo "<script type='text/javascript'>window.location.href = 'staff';</script>";
     }
     else {
         $_SESSION['message'] = "You have entered wrong password, try again!";
