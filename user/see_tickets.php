@@ -10,7 +10,6 @@ else {
     $user_id = $_SESSION['user_id'];
     $last_name = $_SESSION['last_name'];
 }
-echo $_SESSION['user_id'];
 ?>
 <!DOCTYPE HTML>
 <!--

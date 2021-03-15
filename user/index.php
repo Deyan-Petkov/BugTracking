@@ -1,7 +1,7 @@
 <?php
 session_start();
 // Check if user is logged in using the session variable
-/*if ( $_SESSION['logged_in'] != 1 && $_SESSION['priviledge']!='3') {
+if ( $_SESSION['logged_in'] != 1 && $_SESSION['privilege']!='3') {
     echo "<script type='text/javascript'>window.location.href = '../index.php';</script>";
 }
 else {
@@ -9,7 +9,7 @@ else {
     $first_name = $_SESSION['first_name'];
     $last_name = $_SESSION['last_name'];
     $id = $_SESSION['id'];
-}*/
+}
 ?>
 <!DOCTYPE HTML>
 <!--
@@ -29,7 +29,8 @@ else {
 	</head>
 	<body class="is-preload">
 
-		<?php include '../include/header.php';?>
+		<?php include '../include/header.php';
+        ?>
 
 		<!-- Banner -->
 			<section id="banner">
