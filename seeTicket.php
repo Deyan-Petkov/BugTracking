@@ -34,12 +34,12 @@ if ($result->num_rows == 0) { // User doesn't exist
     echo "Nothing fetched from the DB";
     return;
 } else {
-    $names = $result->fetch_assoc();
+    $ticket = $result->fetch_assoc();
 
-    $staffName = $names['staffName'];
-    $clientName = $names['userName'];
-    $clientID = $names['id']; //resolves what type of user is sending the message
-    $title = $names['title'];
+    $staffName = $ticket['staffName'];
+    $clientName = $ticket['userName'];
+    $clientID = $ticket['id']; //resolves what type of user is sending the message
+    $title = $ticket['title'];
     if ($clientID == $user_id) {
         $role = 'client';
     } else {
@@ -61,10 +61,8 @@ if ($result->num_rows == 0) { // User doesn't exist
 
             ); //save the updated chat
             $storage->saveChat($chat, $ticketID);
-
         }
     }
-
 }
 
 include 'include/header.php';
@@ -159,22 +157,21 @@ echo '<div id="listContent">
         <ul>';
 foreach ($fileNames as $fileName) {
     //list the available files
-    echo '<li><a href="?'.$fileName.'">' . $fileName . '</a></li>';
-
+    echo '<li><a href="?' . $fileName . '">' . $fileName . '</a></li>';
 }
 echo "</ul></div>";
 
 
 //These chars are converted to _ from PHP so we need to replace them when check the $_GET
-$convertedValues = array(" ", "." , "[");
-$cleanArray = str_replace($convertedValues,"_",$fileNames);
+$convertedValues = array(" ", ".", "[");
+$cleanArray = str_replace($convertedValues, "_", $fileNames);
 
 //check which file was chosen by user and show it
-for ($i=0; $i <count($cleanArray) ; $i++) { 
+for ($i = 0; $i < count($cleanArray); $i++) {
     if (isset($_GET[$cleanArray[$i]])) {
         // $_SESSION['fileToShow'] = $ticketID."/".$fileName;
         global $fileNames;
-        showFile($ticketID."/".$fileNames[$i]);
+        showFile($ticketID . "/" . $fileNames[$i]);
     }
 }
 
@@ -195,18 +192,52 @@ function showFile($object)
     $file = $storage->getURL($object);
 
     //if image type file
-echo "<div id=userSelection>";
+    echo "<div id=userSelection>";
     if ($fileActualExt == "jpg" || $fileActualExt == "jpeg" || $fileActualExt == "png" || $fileActualExt == "gif") {
         echo '<img src="' . $file . '" alt="picture">';
     } else if ($fileActualExt == "mp4") {
-        echo '<video width="320" height="240" >
-        <source src="' . $file . '" type="video/mp4">
+        ?>
+        <button onclick="play()" type="button" class="button primary small" style="background-color: green;">Play</button>
+        <button onclick="pause()" type="button" class="button primary small">Pause</button>
+        <button onclick="forward()" type="button" class="button  small" style="background-color:yellow;">>></button>
+        <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;"><<</button>
+        <button onclick="replay()" type="button" class="button small" >Replay</button>
+        <br> 
+
+        <video id="video" width="640" height="360" >
+        <source src="<?php echo $file; ?>" type="video/mp4">
         Your browser does not support the video tag.
-        </video> ';
+        </video> 
+        
+ 
+
+        <script>
+        var video = document.getElementById("video");
+        function play() {
+            video.play();
+        }
+
+        function pause() {
+        video.pause();
+        }
+
+        function replay(){
+            video.currentTime = 0;
+        }
+
+        function forward(){
+            video.currentTime += 5;
+        }
+        function backward(){
+            video.currentTime -= 5;
+        }
+
+        </script>
+        <?php
     } else if ($fileActualExt == "pdf") {
         echo '<iframe src="' . $file . '" style="width:600px; height:500px;" frameborder="0"></iframe>"';
-    }else if ($fileActualExt == "txt"){
-        echo '<iframe src="'.$file.'" frameborder="0" height="200"
+    } else if ($fileActualExt == "txt") {
+        echo '<iframe src="' . $file . '" frameborder="0" height="200"
       width="95%"></iframe>';
     }
     echo "</div>";
