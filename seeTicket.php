@@ -1,11 +1,7 @@
 <?php
 
 session_start();
-/*
-resources:
-- css file
-- images
-*/
+
 include 'storage.php';
 include 'libs/db.php';
 
@@ -13,22 +9,22 @@ echo '<link rel="stylesheet" href="assets/css/deyan.css">';
 
 $storage = new storage();
 
-// $ticketID = $_POST['ticketID'];
-$ticketID = 1; //temporary id. The real one will be from the $_POST request sent when user chose a ticket to see
+$ticketID = $_GET['id'];
+
 
 if ($_SESSION['logged_in'] != 1 && $_SESSION['priviledge'] != '3') {
 
     echo "<script type='text/javascript'>window.location.href = '../user_login.php';</script>";
 } else {
-    $user_id = $_SESSION['user_id'];
     $session = $_SESSION['logged_in'];
-    // echo $session . " SESSION STATUS";
+    $role = $_SESSION['role'];
 }
 
 
 
 //Fetch the staff member and the client names associated with this ticket  
-$result = $mysqli->query("select staff.name as staffName, users.name as userName, users.id as id, title from tickets inner join users on users.id = tickets.submitted_by inner join staff on staff.id = tickets.assigned_to where tickets.id = '$ticketID'");
+$result = $mysqli->query("select staff.name as staffName, users.name as userName, title from tickets inner join users on users.id = tickets.submitted_by inner join staff on staff.id = tickets.assigned_to where tickets.id = '$ticketID'");
+
 
 if ($result->num_rows == 0) { // User doesn't exist
     echo "Nothing fetched from the DB";
@@ -38,32 +34,55 @@ if ($result->num_rows == 0) { // User doesn't exist
 
     $staffName = $ticket['staffName'];
     $clientName = $ticket['userName'];
-    $clientID = $ticket['id']; //resolves what type of user is sending the message
     $title = $ticket['title'];
-    if ($clientID == $user_id) {
-        $role = 'client';
-    } else {
-        $role = 'staff';
+    
+}
+
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    if (isset($_POST['submit'])) {
+        //get the chat
+        $chat = $storage->getChat($ticketID);
+        //get the new message
+        $description = $_POST['description'];
+        //add new message to the existing chat
+        $chat[] = array(
+            $role => $description,
+            "date" => date("Y-m-d h:i a")
+
+        ); //save the updated chat
+        $storage->saveChat($chat, $ticketID);
     }
 
+    //check file extensions
+    if (is_uploaded_file($_FILES['files']['tmp_name'][0])) {
+        $total = count($_FILES['files']['name']);
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        echo $total;
+        for ($i = 0; $i < $total; $i++) {
 
-        if (isset($_POST['submit'])) {
-            //get the chat
-            $chat = $storage->getChat($ticketID);
-            //get the new message
-            $description = $_POST['description'];
-            //add new message to the existing chat
-            $chat[] = array(
-                $role => $description,
-                "date" => date("Y-m-d h:i a")
+            $target_file = basename($_FILES["files"]["name"][$i]);
+            $FileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-            ); //save the updated chat
-            $storage->saveChat($chat, $ticketID);
+            // Allow certain file formats
+            if (
+                $FileType != "jpg" && $FileType != "png" && $FileType != "jpeg"
+                && $FileType != "gif" && $FileType != "pdf" && $FileType != "mp4"  && $FileType != "txt"
+            ) {
+                $_SESSION['message'] = "Sorry, only JPG, JPEG, PNG, GIF, PDF, MP4 & TXT files are allowed.";
+                echo "<div class='error-mess'>" . $_SESSION['message'] . "</div>";
+                break;
+            } else {
+                $storage->uploadObject($_FILES["files"]["name"][$i], $_FILES["files"]["tmp_name"][$i], $ticketID . "/");
+            }
         }
     }
 }
+
 
 include 'include/header.php';
 
@@ -157,24 +176,27 @@ echo '<div id="listContent">
         <ul>';
 foreach ($fileNames as $fileName) {
     //list the available files
-    echo '<li><a href="?' . $fileName . '">' . $fileName . '</a></li>';
+    echo '<li><a href="?filename=' . $fileName . '&id=' . $ticketID . '">' . $fileName . '</a></li>';
 }
 echo "</ul></div>";
 
-
 //These chars are converted to _ from PHP so we need to replace them when check the $_GET
-$convertedValues = array(" ", ".", "[");
-$cleanArray = str_replace($convertedValues, "_", $fileNames);
+// $convertedValues = array(" ", ".", "[");
+// $cleanArray = str_replace($convertedValues, "_", $fileNames);
 
-//check which file was chosen by user and show it
-for ($i = 0; $i < count($cleanArray); $i++) {
-    if (isset($_GET[$cleanArray[$i]])) {
-        // $_SESSION['fileToShow'] = $ticketID."/".$fileName;
-        global $fileNames;
-        showFile($ticketID . "/" . $fileNames[$i]);
-    }
+// //check which file was chosen by user and show it
+// for ($i=0; $i <count($cleanArray) ; $i++) { 
+//     if (isset($_GET[$cleanArray[$i]])) {
+//         // $_SESSION['fileToShow'] = $ticketID."/".$fileName;
+//         global $fileNames;
+//         showFile($ticketID."/".$fileNames[$i]);
+//     }
+// }
+
+//get the name of the chosen file and show it
+if (isset($_GET['filename'])) {
+    showFile($ticketID . "/" . $_GET['filename']);
 }
-
 
 /**
  * This method resolves the file extension (from the parameter) 
@@ -196,43 +218,45 @@ function showFile($object)
     if ($fileActualExt == "jpg" || $fileActualExt == "jpeg" || $fileActualExt == "png" || $fileActualExt == "gif") {
         echo '<img src="' . $file . '" alt="picture">';
     } else if ($fileActualExt == "mp4") {
-        ?>
+?>
         <button onclick="play()" type="button" class="button primary small" style="background-color: green;">Play</button>
         <button onclick="pause()" type="button" class="button primary small">Pause</button>
         <button onclick="forward()" type="button" class="button  small" style="background-color:yellow;">>></button>
-        <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;"><<</button>
-        <button onclick="replay()" type="button" class="button small" >Replay</button>
-        <br> 
+        <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;">
+            <<< /button>
+                <button onclick="replay()" type="button" class="button small">Replay</button>
+                <br>
 
-        <video id="video" width="640" height="360" >
-        <source src="<?php echo $file; ?>" type="video/mp4">
-        Your browser does not support the video tag.
-        </video> 
-        
- 
+                <video id="video" width="640" height="360">
+                    <source src="<?php echo $file; ?>" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
 
-        <script>
-        var video = document.getElementById("video");
-        function play() {
-            video.play();
-        }
 
-        function pause() {
-        video.pause();
-        }
 
-        function replay(){
-            video.currentTime = 0;
-        }
+                <script>
+                    var video = document.getElementById("video");
 
-        function forward(){
-            video.currentTime += 5;
-        }
-        function backward(){
-            video.currentTime -= 5;
-        }
+                    function play() {
+                        video.play();
+                    }
 
-        </script>
+                    function pause() {
+                        video.pause();
+                    }
+
+                    function replay() {
+                        video.currentTime = 0;
+                    }
+
+                    function forward() {
+                        video.currentTime += 5;
+                    }
+
+                    function backward() {
+                        video.currentTime -= 5;
+                    }
+                </script>
         <?php
     } else if ($fileActualExt == "pdf") {
         echo '<iframe src="' . $file . '" style="width:600px; height:500px;" frameborder="0"></iframe>"';
@@ -244,79 +268,89 @@ function showFile($object)
 }
 
 
-?>
+        ?>
 
 
 
-<!-- Highlights -->
+        <!-- Highlights -->
 
-<section class="wrapper">
+        <section class="wrapper">
 
-    <div class="inner">
+            <div class="inner">
 
-        <header class="special">
+                <header class="special">
 
-            <h2><?php echo $title ?></h2>
-
-
-        </header>
-
-        <div class="">
-            <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
-
-                <div class="row gtr-uniform">
-
-                    <div class="col-12 col-12-xsmall">
-
-                        <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
-                            <textarea type="description" name="description" id="description" placeholder="Message"></textarea>
-                            <br>
-                            <button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
-                            <br><br>
-                        </form>
-                    </div>
+                    <h2><?php echo $title ?></h2>
 
 
+                </header>
+
+                <div class="">
+                    <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
+
+                        <div class="row gtr-uniform">
+
+                            <div class="col-12 col-12-xsmall">
+
+                                <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
+                                    <textarea type="description" name="description" id="description" placeholder="Message"></textarea>
+
+                                    <br>
+                                    <input type="file" id="files_[]" name="files[]" multiple="multiple">
+
+                                    <br><br>
+                                    <button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
+                                    <br><br>
+                                </form>
+
+                            </div>
 
 
-                    <?php
-                    //get the chat related to this ticket
-                    $chat = $storage->getChat($ticketID);
 
-                    //TODO  to show last message on top(not the first)
-                    foreach ($chat as $message) {
-                        //if $message contains client message show it as appropriate 
-                        if (array_key_exists("client", (array)$message)) {
 
-                            echo
-                            '<div class="message">
+
+                            <?php
+
+
+
+
+                            //get the chat related to this ticket
+                            $chat = $storage->getChat($ticketID);
+
+                            //TODO  to show last message on top(not the first)
+                            foreach ($chat as $message) {
+                                //if $message contains client message show it as appropriate 
+                                if (array_key_exists("client", (array)$message)) {
+
+                                    echo
+                                    '<div class="message">
                                 <img src="images/client.png" alt="client_icon">
                                 <p>' . $message->client . '</p>
                                 <span class="clientName">' . $clientName . '</span>
                                 <span class="time_right"><br><br>' . $message->date . '</span>
 
-                            </div>';
-                            //if $message contains staff member message show it as appropriate 
-                        } else if (array_key_exists("staff", (array)$message)) {
+                            </div><br>';
+                                    //if $message contains staff member message show it as appropriate 
+                                } else if (array_key_exists("staff", (array)$message)) {
 
-                            echo
-                            '<div class="message responce">
+                                    echo
+                                    '<div class="message responce">
                                 <img src="images/support.png" alt="support_icon" class="right">
                                 <p>' . $message->staff . '<br></br>' . $staffName . '</br></p>
                                 <span class="time_left">' . $message->date . '</span>
                             </div>';
-                        }
-                    }
+                                }
+                            }
 
-                    ?>
+                            ?>
 
+
+                        </div>
+                    </form>
 
                 </div>
-            </form>
 
-        </div>
-
-</section>
+        </section>
 
 
 
@@ -324,24 +358,24 @@ function showFile($object)
 
 
 
-<?php include 'include/footer.php'; ?>
+        <?php include 'include/footer.php'; ?>
 
 
 
-<!-- Scripts -->
+        <!-- Scripts -->
 
-<script src="/assets/js/jquery.min.js"></script>
+        <script src="/assets/js/jquery.min.js"></script>
 
-<script src="/assets/js/browser.min.js"></script>
+        <script src="/assets/js/browser.min.js"></script>
 
-<script src="/assets/js/breakpoints.min.js"></script>
+        <script src="/assets/js/breakpoints.min.js"></script>
 
-<script src="/assets/js/util.js"></script>
+        <script src="/assets/js/util.js"></script>
 
-<script src="/assets/js/main.js"></script>
+        <script src="/assets/js/main.js"></script>
 
 
 
-</body>
+        </body>
 
 </html>

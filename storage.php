@@ -13,7 +13,7 @@ class storage {
 
 
     public function __construct(){  
-        putenv("GOOGLE_APPLICATION_CREDENTIALS=credentials/tutorial-732c1310023b.json");
+        putenv("GOOGLE_APPLICATION_CREDENTIALS=".$_SERVER['DOCUMENT_ROOT']."/credentials/tutorial-732c1310023b.json");
         # Your Google Cloud Platform project ID
         $this->projectId = 'tutorial-306009';
 
@@ -46,7 +46,7 @@ class storage {
         $object = $bucket->upload($file, [
             'name' => $destinationFolder.$objectName
         ]);
-        printf('<br>Uploaded %s to gs://%s/%s<br><br>' . PHP_EOL, basename($source), $this->bucketName, $objectName);
+        // printf('<br>Uploaded %s to gs://%s/%s%s<br><br>' . PHP_EOL, basename($source), $this->bucketName, $destinationFolder, $objectName);
     }
 
     /**
@@ -61,7 +61,7 @@ class storage {
         $object = $bucket->upload("null", [
             'name' => $folderName.'/'
         ]);
-         printf('<br>Uploaded %s to gs:///%s<br>' . PHP_EOL, $this->bucketName, $folderName);
+        //  printf('<br>Uploaded %s to gs:///%s<br>' . PHP_EOL, $this->bucketName, $folderName);
     }
     
     /**
@@ -135,7 +135,7 @@ class storage {
         $bucket = $this->storage->bucket($this->bucketName);
         $object = $bucket->object($objectName);
         $object->delete();
-        printf('<br>Deleted gs://%s/%s<br>' . PHP_EOL, $this->bucketName, $objectName);
+        // printf('<br>Deleted gs://%s/%s<br>' . PHP_EOL, $this->bucketName, $objectName);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
-/* User login process, checks if user exists and password is correct */
+require 'libs/db.php';
+
+/* User login process, checks if staff exists and password is correct */
 
 // Escape email to protect against SQL injections
 $email = $mysqli->escape_string($_POST['email']);
@@ -10,17 +12,20 @@ if ( $result->num_rows == 0 ){ // User doesn't exist
     echo "<div class='error-mess'>" . $_SESSION['message'] . "</div>";
 }
 else { // User exists
-    $user = $result->fetch_assoc();
+    $staff = $result->fetch_assoc();
 
-    if ( password_verify($_POST['password'], $user['password']) ) {
+    if ( password_verify($_POST['password'], $staff['password']) ) {
 
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
-        $_SESSION['active'] = $user['active'];
+        $_SESSION['email'] = $staff['email'];
+        $_SESSION['staff_id'] = $staff['id'];
+        $_SESSION['first_name'] = $staff['first_name'];
+        $_SESSION['last_name'] = $staff['last_name'];
+        $_SESSION['active'] = $staff['active'];
+        $_SESSION['role'] = 'staff';
 
-        // This is how we'll know the user is logged in
+        // This is how we'll know the staff is logged in
         $_SESSION['logged_in'] = true;
+        $_SESSION['privilege']='2';
 
         echo "<script type='text/javascript'>window.location.href = 'staff';</script>";
     }

@@ -375,7 +375,6 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
-input[type="file"],
 select,
 textarea {
   -moz-appearance: none;
@@ -396,7 +395,6 @@ textarea {
   input[type="email"]:invalid,
   input[type="tel"]:invalid,
   input[type="search"]:invalid,
-  input[type="file"]:invalid,
   input[type="url"]:invalid,
   select:invalid,
   textarea:invalid {
@@ -413,8 +411,7 @@ input[type="password"],
 input[type="email"],
 input[type="tel"],
 input[type="search"],
-input[type="url"],
-input[type="file"]{
+input[type="url"] {
   height: 3.25rem; }
 
 select {
@@ -506,7 +503,6 @@ input[type="email"],
 input[type="tel"],
 input[type="search"],
 input[type="url"],
-input[type="file"],
 select,
 textarea {
   background-color: rgba(0, 0, 0, 0.075);
@@ -517,7 +513,6 @@ textarea {
   input[type="tel"]:focus,
   input[type="search"]:focus,
   input[type="url"]:focus,
-  input[type="file"]:focus,
   select:focus,
   textarea:focus {
     border-color: #ce1b28;
