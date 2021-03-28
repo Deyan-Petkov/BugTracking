@@ -5,7 +5,6 @@ session_start();
 include 'storage.php';
 include 'libs/db.php';
 
-echo '<link rel="stylesheet" href="assets/css/deyan.css">';
 
 $storage = new storage();
 
@@ -119,6 +118,7 @@ include 'include/header.php';
     <link rel="stylesheet" href="/assets/css/bootstrap.css" />
 
     <link rel="stylesheet" href="/assets/css/luka.css" />
+    <link rel="stylesheet" href="assets/css/deyan.css">
 
 </head>
 
@@ -218,12 +218,12 @@ function showFile($object)
     if ($fileActualExt == "jpg" || $fileActualExt == "jpeg" || $fileActualExt == "png" || $fileActualExt == "gif") {
         echo '<img src="' . $file . '" alt="picture">';
     } else if ($fileActualExt == "mp4") {
-?>
+?>      
+        <!-- Video navigation buttons -->
         <button onclick="play()" type="button" class="button primary small" style="background-color: green;">Play</button>
         <button onclick="pause()" type="button" class="button primary small">Pause</button>
-        <button onclick="forward()" type="button" class="button  small" style="background-color:yellow;">>></button>
-        <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;">
-            <<< /button>
+        <button onclick="forward()" type="button" class="button  small" style="background-color:yellow;"> &#62&#62 </button>
+        <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;"> &#60&#60 </button>
                 <button onclick="replay()" type="button" class="button small">Replay</button>
                 <br>
 
@@ -257,13 +257,22 @@ function showFile($object)
                         video.currentTime -= 5;
                     }
                 </script>
+
+
         <?php
     } else if ($fileActualExt == "pdf") {
+
         echo '<iframe src="' . $file . '" style="width:600px; height:500px;" frameborder="0"></iframe>"';
+
+
     } else if ($fileActualExt == "txt") {
+
         echo '<iframe src="' . $file . '" frameborder="0" height="200"
       width="95%"></iframe>';
+
     }
+
+    
     echo "</div>";
 }
 
@@ -326,7 +335,7 @@ function showFile($object)
                                     '<div class="message">
                                 <img src="images/client.png" alt="client_icon">
                                 <p>' . $message->client . '</p>
-                                <span class="clientName">' . $clientName . '</span>
+                                <span class="clientName"><b>' . $clientName . '</b></span>
                                 <span class="time_right"><br><br>' . $message->date . '</span>
 
                             </div><br>';
@@ -336,7 +345,7 @@ function showFile($object)
                                     echo
                                     '<div class="message responce">
                                 <img src="images/support.png" alt="support_icon" class="right">
-                                <p>' . $message->staff . '<br></br>' . $staffName . '</br></p>
+                                <p>' . $message->staff . '<br></br><b>' . $staffName . '</b></br></p>
                                 <span class="time_left">' . $message->date . '</span>
                             </div>';
                                 }

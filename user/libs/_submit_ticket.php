@@ -5,7 +5,7 @@ use Google\Cloud\Core\Upload\StreamableUploader;
 require $_SERVER['DOCUMENT_ROOT'] . '/libs/db.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/storage.php';
 
-session_start();
+// session_start();
 //get variables
 $title = $_POST['title'];
 $user_id = $_SESSION['user_id'];

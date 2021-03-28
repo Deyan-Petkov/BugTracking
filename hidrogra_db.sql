@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 25, 2021 at 10:53 PM
+-- Generation Time: Mar 28, 2021 at 11:26 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.2
 
@@ -53,7 +53,7 @@ INSERT INTO `staff` (`id`, `name`, `email`, `password`, `hash`, `privilege`, `la
 
 CREATE TABLE `tickets` (
   `id` int(11) NOT NULL,
-  `title` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `submitted_by` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
@@ -69,7 +69,9 @@ CREATE TABLE `tickets` (
 INSERT INTO `tickets` (`id`, `title`, `description`, `date`, `submitted_by`, `assigned_to`, `priority`, `resolved`) VALUES
 (1, 'bug title', 'This is the first ticket', '2021-03-14 16:25:32', '12', '12', 1, 0),
 (2, 'ts', 'te', '2021-03-14 16:26:33', '12', '12', 1, 0),
-(54, 'New Bug', 'New Bug description', '2021-03-25 20:54:59', '12', '23', 1, 0);
+(59, 'a', 'The problem occurred when...', '2021-03-28 21:08:34', '12', '12', 1, 0),
+(54, 'New Bug', 'New Bug description', '2021-03-25 20:54:59', '12', '23', 1, 0),
+(60, 'Lost data during transaction # 2122', 'The problem occurred when...', '2021-03-28 21:16:26', '12', '12', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -129,7 +131,7 @@ ALTER TABLE `staff`
 -- AUTO_INCREMENT for table `tickets`
 --
 ALTER TABLE `tickets`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `users`
