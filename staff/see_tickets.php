@@ -122,7 +122,7 @@ include '../include/header.php'; ?>
                         </select>
                         <input type="hidden" value="' . $row['id'] . '" name="id"/>
                         </form></td>';
-                    echo '<td><a href="see_ticket.php?id=' . $row['id'] . '"><button value="Details" class="primary" >Details</button></a> </td>';
+                    echo '<td><a href="../seeTicket.php?id=' . $row['id'] . '"><button value="Details" class="primary" >Details</button></a> </td>';
                 }
                 ?>
                 </tbody>

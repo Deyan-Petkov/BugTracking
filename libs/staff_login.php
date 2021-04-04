@@ -21,6 +21,8 @@ else { // User exists
         $_SESSION['first_name'] = $staff['first_name'];
         $_SESSION['last_name'] = $staff['last_name'];
         $_SESSION['privilege'] = $staff['level'];
+        $_SESSION['role'] = 'staff';
+
 
         // This is how we'll know the staff is logged in
         $_SESSION['logged_in'] = true;

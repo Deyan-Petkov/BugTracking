@@ -81,7 +81,7 @@ include '../include/header.php'; ?>
                     echo '<td>' . $row['title'] . '</td>';
                     echo '<td>'. $row['date'] .'</td>';
                     echo '<td>'. $row['resolved'] .'</td>';
-                    echo '<td><a href="see_ticket.php?id='. $row['id'] .'"><button value="Details" class="primary" >Details</button></a> </td>';
+                    echo '<td><a href="../seeTicket.php?id='. $row['id'] .'"><button value="Details" class="primary" >Details</button></a> </td>';
                 }
                 ?>
                 </tbody>
