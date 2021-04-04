@@ -20,12 +20,10 @@ else { // User exists
         $_SESSION['staff_id'] = $staff['id'];
         $_SESSION['first_name'] = $staff['first_name'];
         $_SESSION['last_name'] = $staff['last_name'];
-        $_SESSION['active'] = $staff['active'];
-        $_SESSION['role'] = 'staff';
+        $_SESSION['privilege'] = $staff['level'];
 
         // This is how we'll know the staff is logged in
         $_SESSION['logged_in'] = true;
-        $_SESSION['privilege']='2';
 
         echo "<script type='text/javascript'>window.location.href = 'staff';</script>";
     }
