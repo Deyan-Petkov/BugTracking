@@ -5,9 +5,9 @@
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
 -->
 <?php
-if ( $_SESSION['logged_in'] == 1 && $_SESSION['priviledge']=='3') {
-    echo "<script type='text/javascript'>window.location.href = 'user/index.php';</script>";
-}
+// if ( $_SESSION['logged_in'] == 1 && $_SESSION['priviledge']=='3') {
+//     echo "<script type='text/javascript'>window.location.href = 'user/index.php';</script>";
+// }
 ?>
 <html>
 	<head>

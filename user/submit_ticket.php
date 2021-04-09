@@ -8,9 +8,8 @@ if ( $_SESSION['logged_in'] != 1 && $_SESSION['priviledge']!='3') {
 else {
     // Makes it easier to read
     $user_id = $_SESSION['user_id'];
-    $last_name = $_SESSION['last_name'];
+    // $last_name = $_SESSION['last_name'];
 }
-echo $_SESSION['user_id'];
 ?>
 <!DOCTYPE HTML>
 <!--
@@ -83,7 +82,7 @@ echo $_SESSION['user_id'];
                             <!-- Break -->
                             <div class="col-12">
                                 <ul class="actions">
-                                    <li><button type="submit" value="Submit" class="primary" name="submit">Login</button></li>
+                                    <li><button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
                                 </ul>
                             </div>
                         </div>

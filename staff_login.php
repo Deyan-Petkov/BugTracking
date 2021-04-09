@@ -62,7 +62,7 @@
                                 <!-- Break -->
                                 <div class="col-12">
                                     <ul class="actions">
-                                        <li><button type="submit" value="Login" class="primary" name="login"></button></li>
+                                        <li><button type="submit" value="Login" class="primary" name="login">Login</button></li>
                                     </ul>
                                 </div>
                             </div>

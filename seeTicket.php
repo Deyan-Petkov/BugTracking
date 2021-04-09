@@ -10,13 +10,20 @@ $storage = new storage();
 
 $ticketID = $_GET['id'];
 
+//if user is not logged in send it to login
+if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
 
-if ($_SESSION['logged_in'] != 1 && $_SESSION['priviledge'] != '3') {
+    echo "<script type='text/javascript'>window.location.href = 'user_login.php';</script>";
+}//if staff member is not login send it to login
+else if ($_SESSION['logged_in'] != 1 && ($_SESSION['privilege'] == '2' || $_SESSION['privilege'] == '1')){
+    echo "<script type='text/javascript'>window.location.href = 'staff_login.php';</script>";
 
-    echo "<script type='text/javascript'>window.location.href = '../user_login.php';</script>";
-} else {
+}
+else {
     $session = $_SESSION['logged_in'];
     $role = $_SESSION['role'];
+
+    // echo " session staus: ". $session;
 }
 
 
@@ -83,9 +90,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
-include 'include/header.php';
+// include 'include/header.php';
 
 ?>
+
+
+
+<!-- Header -->
+<header id="header">
+    <a class="logo" href="index.php">Ticketing</a>
+    <nav>
+        <a href="#menu">Menu</a>
+    </nav>
+</header>
+
+<!-- Nav -->
+<nav id="menu">
+    <ul class="links">
+        <?php
+
+        if ($_SESSION['privilege'] == 3) {
+            echo "<li><a href=\"user/index.php\">Home</a></li>";
+        }elseif ($_SESSION['privilege'] == (1 || 2)){
+            echo "<li><a href=\"staff/index.php\">Home</a></li>";
+
+        }
+        ?>
+
+        <li><a href="libs/logout.php">Logout</a></li>
+        <li><a href="elements.html">Elements</a></li>
+        <li><a href="generic.html">Generic</a></li>
+    </ul>
+</nav>
+
+
 
 <!DOCTYPE HTML>
 

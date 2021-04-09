@@ -1,13 +1,13 @@
 <?php
 session_start();
 // Check if user is logged in using the session variable
-if ( $_SESSION['logged_in'] != 1 || $_SESSION['privilege']=='3' ) {
+if ( $_SESSION['logged_in'] != 1 || $_SESSION['privilege']=='3') {
     echo "<script type='text/javascript'>window.location.href = '../index.php';</script>";
 }
 else {
     // Makes it easier to read
     $first_name = $_SESSION['first_name'];
-    $last_name = $_SESSION['last_name'];
+    // $last_name = $_SESSION['last_name'];//no such column
     $id = $_SESSION['staff_id'];
     $privilege= $_SESSION['privilege'];
 }

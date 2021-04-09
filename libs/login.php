@@ -18,9 +18,10 @@ else { // User exists
 
         $_SESSION['email'] = $user['email'];
         $_SESSION['user_id'] = $user['id'];
-        $_SESSION['first_name'] = $user['first_name'];
-        $_SESSION['last_name'] = $user['last_name'];
-        $_SESSION['active'] = $user['active'];
+        // $_SESSION['first_name'] = $user['first_name'];//no cuch column
+        $_SESSION['first_name'] = $user['name'];
+        // $_SESSION['last_name'] = $user['last_name'];//no such column
+        // $_SESSION['active'] = $user['active'];//no such column
         $_SESSION['role'] = 'client';
 
 

@@ -7,7 +7,7 @@ if ( $_SESSION['logged_in'] != 1 && $_SESSION['privilege']!='3') {
 else {
     // Makes it easier to read
     $first_name = $_SESSION['first_name'];
-    $last_name = $_SESSION['last_name'];
+    // $last_name = $_SESSION['last_name'];//no such column
     $id = $_SESSION['user_id'];
 }
 ?>
