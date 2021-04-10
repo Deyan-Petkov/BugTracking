@@ -1,9 +1,9 @@
 <?php
 /* Database connection settings */
-$host = 'localhost';
-$user = 'hidrogra_luka';
-$pass = 'Luka032Aleksa011';
-$db = 'hidrogra_db';
+$host = '34.89.61.63';
+$user = 'root';
+$pass = 'TicketingSystem_UG13';
+$db = 'ticketingSystem';
 
 
 $mysqli = new mysqli($host,$user,$pass,$db) or die($mysqli->error);

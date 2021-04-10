@@ -81,7 +81,7 @@
 
 								<header>
 
-									<a href="/user_login.php" class="icon fa-user"><span class="label">Icon</span></a>
+									<a href="/user_login.php " class="icon fa-user"><span class="label">Icon</span></a>
 
 									<h3>User login</h3>
 

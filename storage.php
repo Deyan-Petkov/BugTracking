@@ -13,16 +13,16 @@ class storage {
 
 
     public function __construct(){  
-        putenv("GOOGLE_APPLICATION_CREDENTIALS=".$_SERVER['DOCUMENT_ROOT']."/credentials/tutorial-732c1310023b.json");
+        putenv("GOOGLE_APPLICATION_CREDENTIALS=".$_SERVER['DOCUMENT_ROOT']."/credentials/cloud-ticketing-system-a69fb2997ee4.json");
         # Your Google Cloud Platform project ID
-        $this->projectId = 'tutorial-306009';
+        $this->projectId = 'cloud-ticketing-system';
 
         # Instantiates a client
         $this->storage = new StorageClient([
             'projectId' => $this->projectId
         ]);
 
-        $this->bucketName = 'tutorial-306009.appspot.com';
+        $this->bucketName = 'cloud-ticketing-system.appspot.com';
         $this->storage->registerStreamWrapper();
 
     }
@@ -151,7 +151,7 @@ class storage {
      * @return json file containing the chat history
      */
     function getChat($ID){
-        $chat = file_get_contents("gs://tutorial-306009.appspot.com/chat/".$ID.".json");
+        $chat = file_get_contents("gs://cloud-ticketing-system.appspot.com/chat/".$ID.".json");
         return json_decode($chat);
     }
 
@@ -162,7 +162,7 @@ class storage {
      */
     function saveChat($message, $ID){
         $encoded = json_encode($message);
-        return file_put_contents("gs://tutorial-306009.appspot.com/chat/".$ID.".json", $encoded);
+        return file_put_contents("gs://cloud-ticketing-system.appspot.com/chat/".$ID.".json", $encoded);
     }
 
 }
