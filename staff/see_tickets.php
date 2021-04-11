@@ -79,6 +79,7 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
                             ?>
                             <th>Priority</th>
                             <th>See Details</th>
+                            <th>Mark as resolved</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -93,6 +94,11 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
 
 
                         while ($row = mysqli_fetch_array($result)) {
+                            if ($row['resolved'] == '0') {
+                                $row['resolved'] = 'No';
+                            }elseif ($row['resolved'] == '1') {
+                                $row['resolved'] = 'Yes';
+                            }
                             echo '<tr><td>' . $row['id'] . '</td>';
                             echo '<td>' . $row['title'] . '</td>';
                             echo '<td>' . $row['date'] . '</td>';
@@ -120,6 +126,7 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
                             } elseif ($row['priority'] == '3') {
                                 $row['priority'] = 'Low';
                             }
+
                             echo '<td><form name="changePriority" id="changePriority" action="libs/_change_priority.php" method="post">
                         <select id="priority" name="newPriority" onchange="this.form.submit()">
                         <option value="' . $row['priority'] . '">' . $row['priority'] . '</option>
@@ -130,6 +137,7 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
                         <input type="hidden" value="' . $row['id'] . '" name="id"/>
                         </form></td>';
                             echo '<td><a href="../seeTicket.php?id=' . $row['id'] . '"><button value="Details" class="primary" >Details</button></a> </td>';
+                            echo '<td><a href="libs/_resolved.php?id=' . $row['id'] . '"><button value="Resolved" class="primary" >Resolved</button></a> </td>';
                         }
                         ?>
                     </tbody>
