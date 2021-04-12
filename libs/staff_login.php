@@ -19,10 +19,7 @@ else { // User exists
 
         $_SESSION['email'] = $staff['email'];
         $_SESSION['staff_id'] = $staff['id'];
-        // $_SESSION['first_name'] = $staff['first_name'];
         $_SESSION['first_name'] = $staff['name'];
-        // $_SESSION['last_name'] = $staff['last_name'];//no such column
-        // $_SESSION['privilege'] = $staff['level'];//no such column
         $_SESSION['privilege'] = $staff['privilege'];
         $_SESSION['role'] = 'staff';
 

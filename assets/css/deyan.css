@@ -4,6 +4,13 @@
     border-radius: 5px;
     padding: 10px;
     margin: 10px, 0px;
+    /* white-space: pre; */
+
+
+    /* display: inline; */
+    /* display: table; */
+
+
 }
 .message img {
     float: left;
@@ -42,13 +49,15 @@
 
 p {
     word-wrap: break-word;
-    /* width: 100px; */
+    width: 100px;
+    /* display: inline; */
 }
 
 .message::after{
     content: "";
     clear: both;
     display: table;
+
 }
 
 .time_right{

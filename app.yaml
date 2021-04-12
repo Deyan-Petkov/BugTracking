@@ -5,10 +5,10 @@ runtime_config:
 
 handlers:
 # Serve a directory as a static resource.
-# - url: /assets
-#   static_dir: assets
-# - url: /images
-#   static_dir: images
+- url: /assets
+  static_dir: assets
+- url: /images
+  static_dir: images
 
 
 # Serve images as static resources.

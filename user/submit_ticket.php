@@ -8,7 +8,6 @@ if ( $_SESSION['logged_in'] != 1 && $_SESSION['priviledge']!='3') {
 else {
     // Makes it easier to read
     $user_id = $_SESSION['user_id'];
-    // $last_name = $_SESSION['last_name'];
 }
 ?>
 <!DOCTYPE HTML>

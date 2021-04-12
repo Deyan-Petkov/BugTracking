@@ -79,21 +79,11 @@ if ($mysqli->query($sql) && $uploadOk1 == 1) {
 
     //make the ticket directory
     $storage->createFolder($ticket_id); //google storage
-    //local
-    // $target_dir = $_SERVER['DOCUMENT_ROOT'] . '/tickets/' . $ticket_id . '/';
-    // if (!is_dir($ticket_id)) {
-    //     mkdir($target_dir, 0755, true);
-    // }
+
     //loop through each file for upload
     for ($i = 0; $i < $total; $i++) {
         //store to cloud
         $storage->uploadObject($_FILES["files"]["name"][$i], $_FILES["files"]["tmp_name"][$i], $ticket_id . "/");
-
-        //store locally
-        // $target_file = $target_dir . basename($_FILES["files"]["name"][$i]);
-        // $FileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        // $newfilename = $i . '.' . $FileType;
-        // $newtarget_file = $target_dir . $newfilename;
 
         $uploadOk = 1;
         // Allow certain file formats
@@ -110,15 +100,8 @@ if ($mysqli->query($sql) && $uploadOk1 == 1) {
             $_SESSION['message'] = 'Sorry, your file was not uploaded!';
             echo "<div class='error-mess'>" . $_SESSION['message'] . "</div>";
             //if everything is ok, try to upload file
-        } // else {
-        //     if (move_uploaded_file($_FILES["files"]["tmp_name"][$i], $newtarget_file)) {
-        //         /*$_SESSION['message'] = "The file " . $newfilename . " has been uploaded.<br>";
-        //         echo "<div class='error-mess'>" . $_SESSION['message'] . "</div>";*/
-        //     } else {
-        //         $_SESSION['message'] = "Sorry, there was an error uploading your file. Error: " . $_FILES["files"]["error"][$i] . "<br>";
-        //         echo "<div class='error-mess'>" . $_SESSION['message'] . "</div>";
-        //     }
-        // }
+        } 
+
     }
     if ($uploadOk == 1) {
         $_SESSION['message'] = "The ticket has been submitted.<br>";

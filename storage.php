@@ -14,6 +14,7 @@ class storage {
 
     public function __construct(){  
         putenv("GOOGLE_APPLICATION_CREDENTIALS=".$_SERVER['DOCUMENT_ROOT']."/credentials/cloud-ticketing-system-a69fb2997ee4.json");
+
         # Your Google Cloud Platform project ID
         $this->projectId = 'cloud-ticketing-system';
 

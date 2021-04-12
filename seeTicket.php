@@ -23,7 +23,6 @@ else {
     $session = $_SESSION['logged_in'];
     $role = $_SESSION['role'];
 
-    // echo " session staus: ". $session;
 }
 
 
@@ -89,8 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-
-// include 'include/header.php';
 
 ?>
 
@@ -218,18 +215,6 @@ foreach ($fileNames as $fileName) {
 }
 echo "</ul></div>";
 
-//These chars are converted to _ from PHP so we need to replace them when check the $_GET
-// $convertedValues = array(" ", ".", "[");
-// $cleanArray = str_replace($convertedValues, "_", $fileNames);
-
-// //check which file was chosen by user and show it
-// for ($i=0; $i <count($cleanArray) ; $i++) { 
-//     if (isset($_GET[$cleanArray[$i]])) {
-//         // $_SESSION['fileToShow'] = $ticketID."/".$fileName;
-//         global $fileNames;
-//         showFile($ticketID."/".$fileNames[$i]);
-//     }
-// }
 
 //get the name of the chosen file and show it
 if (isset($_GET['filename'])) {
@@ -369,23 +354,23 @@ function showFile($object)
                                 //if $message contains client message show it as appropriate 
                                 if (array_key_exists("client", (array)$message)) {
 
-                                    echo
-                                    '<div class="message">
-                                <img src="images/client.png" alt="client_icon">
-                                <p>' . $message->client . '</p>
-                                <span class="clientName"><b>' . $clientName . '</b></span>
-                                <span class="time_right"><br><br>' . $message->date . '</span>
 
-                            </div><br>';
+                                    echo
+                                    '<div class="message inner" >
+                                        <img src="images/client.png" alt="client_icon">
+                                        <p>' . $message->client . '</p>
+                                        <span class="clientName"><b>' . $clientName . '</b></span>
+                                        <span class="time_right"><br><br>' . $message->date . '</span>
+                                    </div><br>';
                                     //if $message contains staff member message show it as appropriate 
                                 } else if (array_key_exists("staff", (array)$message)) {
 
                                     echo
-                                    '<div class="message responce">
-                                <img src="images/support.png" alt="support_icon" class="right">
-                                <p>' . $message->staff . '<br></br><b>' . $staffName . '</b></br></p>
-                                <span class="time_left">' . $message->date . '</span>
-                            </div>';
+                                    '<div class="message responce inner" >
+                                        <img src="images/support.png" alt="support_icon" class="right">
+                                        <p>' . $message->staff . '<br></br><b>' . $staffName . '</b></br></p>
+                                        <span class="time_left">' . $message->date . '</span>
+                                     </div><br>';
                                 }
                             }
 
