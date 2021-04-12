@@ -74,6 +74,7 @@ include '../include/header.php'; ?>
                 <?php
                 require $_SERVER['DOCUMENT_ROOT'] . '/libs/db.php';
 
+                //get the tickets for related to this user
                 $result = $mysqli->query("SELECT * FROM tickets WHERE submitted_by='$user_id' ORDER BY date DESC");
 
 
