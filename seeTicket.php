@@ -14,15 +14,12 @@ $ticketID = $_GET['id'];
 if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
 
     echo "<script type='text/javascript'>window.location.href = 'user_login.php';</script>";
-}//if staff member is not login send it to login
-else if ($_SESSION['logged_in'] != 1 && ($_SESSION['privilege'] == '2' || $_SESSION['privilege'] == '1')){
+} //if staff member is not login send it to login
+else if ($_SESSION['logged_in'] != 1 && ($_SESSION['privilege'] == '2' || $_SESSION['privilege'] == '1')) {
     echo "<script type='text/javascript'>window.location.href = 'staff_login.php';</script>";
-
-}
-else {
+} else {
     $session = $_SESSION['logged_in'];
     $role = $_SESSION['role'];
-
 }
 
 
@@ -40,7 +37,6 @@ if ($result->num_rows == 0) { // User doesn't exist
     $staffName = $ticket['staffName'];
     $clientName = $ticket['userName'];
     $title = $ticket['title'];
-    
 }
 
 
@@ -89,325 +85,297 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 
 
+
 ?>
-
-
-
-<!-- Header -->
-<header id="header">
-    <a class="logo" href="index.php">Ticketing</a>
-    <nav>
-        <a href="#menu">Menu</a>
-    </nav>
-</header>
-
-<!-- Nav -->
-<nav id="menu">
-    <ul class="links">
-        <?php
-
-        if ($_SESSION['privilege'] == 3) {
-            echo "<li><a href=\"user/index.php\">Home</a></li>";
-        }elseif ($_SESSION['privilege'] == (1 || 2)){
-            echo "<li><a href=\"staff/index.php\">Home</a></li>";
-
-        }
-        ?>
-
-        <li><a href="libs/logout.php">Logout</a></li>
-        <li><a href="elements.html">Elements</a></li>
-        <li><a href="generic.html">Generic</a></li>
-    </ul>
-</nav>
-
-
-
 <!DOCTYPE HTML>
-
 <!--
-
 	Industrious by TEMPLATED
-
 	templated.co @templatedco
-
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
-
 -->
-
 <html>
 
 <head>
-
     <title>Ticketing</title>
-
     <meta charset="utf-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-
     <meta name="description" content="" />
-
     <meta name="keywords" content="" />
-
     <link rel="stylesheet" href="/assets/css/main.css" />
-
-    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
-
-    <link rel="stylesheet" href="/assets/css/luka.css" />
-    <link rel="stylesheet" href="assets/css/deyan.css">
-
+    <link rel="stylesheet" href="/assets/css/bootstrap.css.css" />
+    <link rel="stylesheet" href="/assets/css/deyan.css">
 </head>
 
 <body class="is-preload">
 
-<!-- Banner -->
 
-<section id="banner">
+    <!-- Header -->
+    <header id="header">
+        <a class="logo" href="index.php">Ticketing</a>
+        <nav>
+            <a href="#menu">Menu</a>
+        </nav>
+    </header>
 
-    <div class="inner">
+    <!-- Nav -->
+    <nav id="menu">
+        <ul class="links">
+            <?php
 
-        <h1>Ticketing</h1>
+            if ($_SESSION['privilege'] == 3) {
+                echo "<li><a href=\"user/index.php\">Home</a></li>";
+            } elseif ($_SESSION['privilege'] == (1 || 2)) {
+                echo "<li><a href=\"staff/index.php\">Home</a></li>";
+            }
+            ?>
 
-        <p>Best ticketing solution for all kinds of businesses.</p>
-
-    </div>
-
-    <video autoplay loop muted playsinline src="/images/banner.mp4"></video>
-
-</section>
-
-
-<?php
-
-
-//show all files in the ticket folder
-$ticketFolder = $storage->listFolder($ticketID);
-// [0] => 1/
-//     [1] => 1/apple.png
-//     [2] => 1/pinguin.jpg
-//     [3] => 1/smallpdf.pdf
-//     [4] => 1/textFile.txt
-//     [5] => 1/earth.gif
+            <li><a href="libs/logout.php">Logout</a></li>
+            <li><a href="elements.html">Elements</a></li>
+            <li><a href="generic.html">Generic</a></li>
+        </ul>
+    </nav>
 
 
-foreach ($ticketFolder as $file) {
-    global $fileNames;
-    //split the folder and file name
-    $fileNameAndFolderName =  (explode("/", $file));
-    $fileName = end($fileNameAndFolderName);
+    <!-- Banner -->
+    <section id="banner">
+        <div class="inner">
+            <h1>Ticketing</h1>
+            <p>Best ticketing solution for all kinds of businesses.</p>
+        </div>
+        <video autoplay loop muted playsinline src="/images/banner.mp4"></video>
+    </section>
 
-    //shwo only files (skip the folder name)
-    if (strlen($fileName) > 0) {
-        //get all names
-        $fileNames[] = $fileName;
-        // [0] => apple.png
-        // [1] => pinguin.jpg
-        // [2] => smallpdf.pdf
-        // [3] => textFile.txt
+
+
+    <?php
+
+
+    //show all files in the ticket folder
+    $ticketFolder = $storage->listFolder($ticketID);
+    // [0] => 1/
+    //     [1] => 1/apple.png
+    //     [2] => 1/pinguin.jpg
+    //     [3] => 1/smallpdf.pdf
+    //     [4] => 1/textFile.txt
+    //     [5] => 1/earth.gif
+
+
+    foreach ($ticketFolder as $file) {
+        global $fileNames;
+        //split the folder and file name
+        $fileNameAndFolderName =  (explode("/", $file));
+        $fileName = end($fileNameAndFolderName);
+
+        //shwo only files (skip the folder name)
+        if (strlen($fileName) > 0) {
+            //get all names
+            $fileNames[] = $fileName;
+            // [0] => apple.png
+            // [1] => pinguin.jpg
+            // [2] => smallpdf.pdf
+            // [3] => textFile.txt
+        }
     }
-}
 
 
-echo '<div id="listContent">
+    echo '<div id="listContent">
         <ul>';
-foreach ($fileNames as $fileName) {
-    //list the available files
-    echo '<li><a href="?filename=' . $fileName . '&id=' . $ticketID . '">' . $fileName . '</a></li>';
-}
-echo "</ul></div>";
+    foreach ($fileNames as $fileName) {
+        //list the available files
+        echo '<li><a href="?filename=' . $fileName . '&id=' . $ticketID . '">' . $fileName . '</a></li>';
+    }
+    echo "</ul></div>";
 
 
-//get the name of the chosen file and show it
-if (isset($_GET['filename'])) {
-    showFile($ticketID . "/" . $_GET['filename']);
-}
-
-/**
- * This method resolves the file extension (from the parameter) 
- * and shows the file according to its type
- * @param $object the full Cloud Storage path to the file 
- *        (e.g. folder and file name - 1/earth.gif)
- */
-function showFile($object)
-{
-    global $storage;
-    //check the type of file
-    $fileExt = explode('.', $object); //split the file name on the . in the file name - e.g. the file extension
-
-    $fileActualExt = strtolower(end($fileExt)); //take the part after the . 
-    $file = $storage->getURL($object);
-
-    //if image type file
-    echo "<div id=userSelection>";
-    if ($fileActualExt == "jpg" || $fileActualExt == "jpeg" || $fileActualExt == "png" || $fileActualExt == "gif") {
-        echo '<img src="' . $file . '" alt="picture">';
-    } else if ($fileActualExt == "mp4") {
-?>      
-        <!-- Video navigation buttons -->
-        <button onclick="play()" type="button" class="button primary small" style="background-color: green;">Play</button>
-        <button onclick="pause()" type="button" class="button primary small">Pause</button>
-        <button onclick="forward()" type="button" class="button  small" style="background-color:yellow;"> &#62&#62 </button>
-        <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;"> &#60&#60 </button>
-                <button onclick="replay()" type="button" class="button small">Replay</button>
-                <br>
-
-                <video id="video" width="640" height="360">
-                    <source src="<?php echo $file; ?>" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-
-
-
-                <script>
-                    var video = document.getElementById("video");
-
-                    function play() {
-                        video.play();
-                    }
-
-                    function pause() {
-                        video.pause();
-                    }
-
-                    function replay() {
-                        video.currentTime = 0;
-                    }
-
-                    function forward() {
-                        video.currentTime += 5;
-                    }
-
-                    function backward() {
-                        video.currentTime -= 5;
-                    }
-                </script>
-
-
-        <?php
-    } else if ($fileActualExt == "pdf") {
-
-        echo '<iframe src="' . $file . '" style="width:600px; height:500px;" frameborder="0"></iframe>"';
-
-
-    } else if ($fileActualExt == "txt") {
-
-        echo '<iframe src="' . $file . '" frameborder="0" height="200"
-      width="95%"></iframe>';
-
+    //get the name of the chosen file and show it
+    if (isset($_GET['filename'])) {
+        showFile($ticketID . "/" . $_GET['filename']);
     }
 
-    
-    echo "</div>";
-}
+    /**
+     * This method resolves the file extension (from the parameter) 
+     * and shows the file according to its type
+     * @param $object the full Cloud Storage path to the file 
+     *        (e.g. folder and file name - 1/earth.gif)
+     */
+    function showFile($object)
+    {
+        global $storage;
+        //check the type of file
+        $fileExt = explode('.', $object); //split the file name on the . in the file name - e.g. the file extension
 
+        $fileActualExt = strtolower(end($fileExt)); //take the part after the . 
+        $file = $storage->getURL($object);
 
-        ?>
+        //if image type file
+        echo "<div id=userSelection>";
+        if ($fileActualExt == "jpg" || $fileActualExt == "jpeg" || $fileActualExt == "png" || $fileActualExt == "gif") {
+            echo '<img src="' . $file . '" alt="picture">';
+        } else if ($fileActualExt == "mp4") {
+    ?>
+            <!-- Video navigation buttons -->
+            <button onclick="play()" type="button" class="button primary small" style="background-color: green;">Play</button>
+            <button onclick="pause()" type="button" class="button primary small">Pause</button>
+            <button onclick="forward()" type="button" class="button  small" style="background-color:yellow;"> &#62&#62 </button>
+            <button onclick="backward()" type="button" class="button  small" style="background-color:yellow;"> &#60&#60 </button>
+            <button onclick="replay()" type="button" class="button small">Replay</button>
+            <br>
 
-
-
-        <!-- Highlights -->
-
-        <section class="wrapper">
-
-            <div class="inner">
-
-                <header class="special">
-
-                    <h2><?php echo $title ?></h2>
-
-
-                </header>
-
-                <div class="">
-                    <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
-
-                        <div class="row gtr-uniform">
-
-                            <div class="col-12 col-12-xsmall">
-
-                                <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
-                                    <textarea type="description" name="description" id="description" placeholder="Message"></textarea>
-
-                                    <br>
-                                    <input type="file" id="files_[]" name="files[]" multiple="multiple">
-
-                                    <br><br>
-                                    <button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
-                                    <br><br>
-                                </form>
-
-                            </div>
+            <video id="video" width="640" height="360">
+                <source src="<?php echo $file; ?>" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
 
 
 
+            <script>
+                var video = document.getElementById("video");
+
+                function play() {
+                    video.play();
+                }
+
+                function pause() {
+                    video.pause();
+                }
+
+                function replay() {
+                    video.currentTime = 0;
+                }
+
+                function forward() {
+                    video.currentTime += 5;
+                }
+
+                function backward() {
+                    video.currentTime -= 5;
+                }
+            </script>
 
 
-                            <?php
+    <?php
+        } else if ($fileActualExt == "pdf") {
+
+            echo '<iframe src="' . $file . '" style="width:600px; height:500px;" frameborder="0"></iframe>"';
+        } else if ($fileActualExt == "txt") {
+
+            echo '<iframe src="' . $file . '" frameborder="0" height="200"
+      width="95%"></iframe>';
+        }
+
+
+        echo "</div>";
+    }
+
+
+    ?>
+
+
+
+    <!-- Highlights -->
+
+    <section class="wrapper">
+
+        <div class="inner">
+
+            <header class="special">
+
+                <h2><?php echo $title ?></h2>
+
+
+            </header>
+
+            <div class="">
+                <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
+
+                    <div class="row gtr-uniform">
+
+                        <div class="col-12 col-12-xsmall">
+
+                            <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
+                                <textarea type="description" name="description" id="description" placeholder="Message"></textarea>
+
+                                <br>
+                                <input type="file" id="files_[]" name="files[]" multiple="multiple">
+
+                                <br><br>
+                                <button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
+                                <br><br>
+                            </form>
+
+                        </div>
 
 
 
 
-                            //get the chat related to this ticket
-                            $chat = $storage->getChat($ticketID);
 
-                            //TODO  to show last message on top(not the first)
-                            foreach ($chat as $message) {
-                                //if $message contains client message show it as appropriate 
-                                if (array_key_exists("client", (array)$message)) {
+                        <?php
 
 
-                                    echo
-                                    '<div class="message inner" >
+
+
+                        //get the chat related to this ticket
+                        $chat = $storage->getChat($ticketID);
+
+                        //TODO  to show last message on top(not the first)
+                        foreach ($chat as $message) {
+                            //if $message contains client message show it as appropriate 
+                            if (array_key_exists("client", (array)$message)) {
+
+
+                                echo
+                                '<div class="message inner" >
                                         <img src="images/client.png" alt="client_icon">
                                         <p>' . $message->client . '</p>
                                         <span class="clientName"><b>' . $clientName . '</b></span>
                                         <span class="time_right"><br><br>' . $message->date . '</span>
                                     </div><br>';
-                                    //if $message contains staff member message show it as appropriate 
-                                } else if (array_key_exists("staff", (array)$message)) {
+                                //if $message contains staff member message show it as appropriate 
+                            } else if (array_key_exists("staff", (array)$message)) {
 
-                                    echo
-                                    '<div class="message responce inner" >
+                                echo
+                                '<div class="message responce inner" >
                                         <img src="images/support.png" alt="support_icon" class="right">
                                         <p>' . $message->staff . '<br></br><b>' . $staffName . '</b></br></p>
                                         <span class="time_left">' . $message->date . '</span>
                                      </div><br>';
-                                }
                             }
+                        }
 
-                            ?>
-
-
-                        </div>
-                    </form>
-
-                </div>
-
-        </section>
+                        ?>
 
 
+                    </div>
+                </form>
 
+            </div>
+
+    </section>
 
 
 
 
-        <?php include 'include/footer.php'; ?>
 
 
 
-        <!-- Scripts -->
-
-        <script src="/assets/js/jquery.min.js"></script>
-
-        <script src="/assets/js/browser.min.js"></script>
-
-        <script src="/assets/js/breakpoints.min.js"></script>
-
-        <script src="/assets/js/util.js"></script>
-
-        <script src="/assets/js/main.js"></script>
+    <?php include 'include/footer.php'; ?>
 
 
 
-        </body>
+    <!-- Scripts -->
+
+    <script src="/assets/js/jquery.min.js"></script>
+
+    <script src="/assets/js/browser.min.js"></script>
+
+    <script src="/assets/js/breakpoints.min.js"></script>
+
+    <script src="/assets/js/util.js"></script>
+
+    <script src="/assets/js/main.js"></script>
+
+
+
+</body>
 
 </html>
