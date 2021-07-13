@@ -47,10 +47,9 @@
     margin-right: 30px;
 }
 
-p {
-    word-wrap: break-word;
-    width: 100px;
-    /* display: inline; */
+.customParagraph {
+    word-wrap: normal;
+    
 }
 
 .message::after{

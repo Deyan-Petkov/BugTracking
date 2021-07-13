@@ -6,6 +6,7 @@ include 'storage.php';
 include 'libs/db.php';
 
 
+
 $storage = new storage();
 
 $ticketID = $_GET['id'];
@@ -42,7 +43,7 @@ if ($result->num_rows == 0) { // User doesn't exist
 
 
 
-
+//Add the new massage to the chat reccords
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (isset($_POST['submit'])) {
@@ -63,7 +64,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (is_uploaded_file($_FILES['files']['tmp_name'][0])) {
         $total = count($_FILES['files']['name']);
 
-        echo $total;
         for ($i = 0; $i < $total; $i++) {
 
             $target_file = basename($_FILES["files"]["name"][$i]);
@@ -102,12 +102,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="description" content="" />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="/assets/css/main.css" />
-    <link rel="stylesheet" href="/assets/css/bootstrap.css.css" />
+    <link rel="stylesheet" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/assets/css/luka.css" />
     <link rel="stylesheet" href="/assets/css/deyan.css">
+
+
+    <!--
+    Datatable plugin
+    -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.8/css/fixedHeader.bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap.min.css" />
+
 </head>
 
 <body class="is-preload">
-
 
     <!-- Header -->
     <header id="header">
@@ -178,13 +188,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
 
-    echo '<div id="listContent">
-        <ul>';
+    echo '
+    <nav id="listContent">
+        <ul class="links">';
     foreach ($fileNames as $fileName) {
         //list the available files
         echo '<li><a href="?filename=' . $fileName . '&id=' . $ticketID . '">' . $fileName . '</a></li>';
     }
-    echo "</ul></div>";
+    echo
+    '</ul>
+    </nav>';
 
 
     //get the name of the chosen file and show it
@@ -290,69 +303,83 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="row gtr-uniform">
 
+                        <!-- <div class="col-12 col-12-xsmall"> -->
+                        <!-- <form action="#" method="post" autocomplete="off" enctype="multipart/form-data"> -->
                         <div class="col-12 col-12-xsmall">
-
-                            <form action="#" method="post" autocomplete="off" enctype="multipart/form-data">
-                                <textarea type="description" name="description" id="description" placeholder="Message"></textarea>
-
-                                <br>
-                                <input type="file" id="files_[]" name="files[]" multiple="multiple">
-
-                                <br><br>
-                                <button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
-                                <br><br>
-                            </form>
-
+                            <textarea type="description" name="description" id="description" placeholder="Message"></textarea>
                         </div>
 
+                        <div class="col-12 col-12-xsmall">
+                            <input type="file" id="files_[]" name="files[]" multiple="multiple">
+                        </div>
 
-
-
-
-                        <?php
-
-
-
-
-                        //get the chat related to this ticket
-                        $chat = $storage->getChat($ticketID);
-
-                        //TODO  to show last message on top(not the first)
-                        foreach ($chat as $message) {
-                            //if $message contains client message show it as appropriate 
-                            if (array_key_exists("client", (array)$message)) {
-
-
-                                echo
-                                '<div class="message inner" >
-                                        <img src="images/client.png" alt="client_icon">
-                                        <p>' . $message->client . '</p>
-                                        <span class="clientName"><b>' . $clientName . '</b></span>
-                                        <span class="time_right"><br><br>' . $message->date . '</span>
-                                    </div><br>';
-                                //if $message contains staff member message show it as appropriate 
-                            } else if (array_key_exists("staff", (array)$message)) {
-
-                                echo
-                                '<div class="message responce inner" >
-                                        <img src="images/support.png" alt="support_icon" class="right">
-                                        <p>' . $message->staff . '<br></br><b>' . $staffName . '</b></br></p>
-                                        <span class="time_left">' . $message->date . '</span>
-                                     </div><br>';
-                            }
-                        }
-
-                        ?>
-
-
+                        <!-- Break -->
+                        <div class="col-12">
+                            <button type="submit" value="Submit" class="primary" name="submit">Submit</button></li>
+                        </div>
                     </div>
                 </form>
 
             </div>
-
+        </div>
     </section>
 
 
+
+    <section class="wrapper">
+
+        <div class="inner">
+
+            <header class="special">
+
+                <h2>
+                    <Chat>
+                </h2>
+
+
+            </header>
+
+            <?php
+
+
+
+
+            //get the chat related to this ticket
+            $chat = $storage->getChat($ticketID);
+
+            //TODO  to show last message on top(not the first)
+            foreach ($chat as $message) {
+                //if $message contains client message show it as appropriate 
+                if (array_key_exists("client", (array)$message)) {
+
+
+                    echo
+                    '<div class="message" >
+                        <span class="image left">
+                            <img src="images/client.png" alt="client_icon">
+                        </span>
+                        <p class = "customParagraph">' . $message->client . '</p>
+                        <span class="clientName"><b>' . $clientName . '</b></span>
+                        <span class="time_right"><br><br>' . $message->date . '</span>
+                    </div><br>';
+                    //if $message contains staff member message show it as appropriate 
+                } else if (array_key_exists("staff", (array)$message)) {
+
+                    echo
+                    '<div class="message responce inner" >
+                        <span class="image right">
+                            <img src="images/support.png" alt="support_icon" class="right">
+                        </span>
+                        <p class = "customParagraph">' . $message->staff . '<br></br><b>' . $staffName . '</b></br></p>
+                        <span class="time_left">' . $message->date . '</span>
+                    </div><br>';
+                }
+            }
+
+            ?>
+
+        </div>
+    </section>
 
 
 
@@ -360,21 +387,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php include 'include/footer.php'; ?>
 
-
-
     <!-- Scripts -->
-
     <script src="/assets/js/jquery.min.js"></script>
-
     <script src="/assets/js/browser.min.js"></script>
-
     <script src="/assets/js/breakpoints.min.js"></script>
-
     <script src="/assets/js/util.js"></script>
-
     <script src="/assets/js/main.js"></script>
-
-
+    <!-- Datatable scripts-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/fixedheader/3.1.8/js/dataTables.fixedHeader.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap.min.js"></script>
 
 </body>
 

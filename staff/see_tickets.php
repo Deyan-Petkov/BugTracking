@@ -84,7 +84,7 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
                         <?php
                         require $_SERVER['DOCUMENT_ROOT'] . '/libs/db.php';
                         //if superAdmin the show all tickets
-                        if ($staff_id == 12) {
+                        if ($privilege == 1) {
                             $result = $mysqli->query("SELECT * FROM tickets ORDER BY date DESC");
                         } else {//else show only assigned to this staff member tickets
                             $result = $mysqli->query("SELECT * FROM tickets where assigned_to = $staff_id ORDER BY date DESC");
@@ -125,6 +125,21 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
                                 $row['priority'] = 'Low';
                             }
 
+                        //     echo '<td><form name="changePriority" id="changePriority" action="libs/_change_priority.php" method="post">
+                        // <select id="priority" name="newPriority" onchange="this.form.submit()">
+                        // <option value="' . $row['priority'] . '">' . $row['priority'] . '</option>
+                        // <option value="1">High</option>
+                        // <option value="2">Medium</option>
+                        // <option value="3">Low</option>
+                        // </select>
+                        // <input type="hidden" value="' . $row['id'] . '" name="id"/>
+                        // </form></td>';
+
+
+
+
+                        if($privilege == 1){
+                            
                             echo '<td><form name="changePriority" id="changePriority" action="libs/_change_priority.php" method="post">
                         <select id="priority" name="newPriority" onchange="this.form.submit()">
                         <option value="' . $row['priority'] . '">' . $row['priority'] . '</option>
@@ -134,6 +149,19 @@ if ($_SESSION['logged_in'] != 1 && $_SESSION['privilege'] == '3') {
                         </select>
                         <input type="hidden" value="' . $row['id'] . '" name="id"/>
                         </form></td>';
+                        }else{
+
+
+                            
+                            echo '<td>'. $row['priority'].'</td>';
+
+
+                        }
+
+
+
+
+
                             echo '<td><a href="../seeTicket.php?id=' . $row['id'] . '"><button value="Details" class="primary" >Details</button></a> </td>';
                             echo '<td><a href="libs/_resolved.php?id=' . $row['id'] . '"><button value="Resolved" class="primary" >Resolved</button></a> </td>';
                         }
