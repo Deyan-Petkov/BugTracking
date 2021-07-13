@@ -1,0 +1,70 @@
+.message {
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px, 0px;
+    /* white-space: pre; */
+
+
+    /* display: inline; */
+    /* display: table; */
+
+
+}
+.message img {
+    float: left;
+    max-width: 60px;
+    width: 100px;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+.clientName {
+    float: right;
+
+}
+
+#listContent {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+#userSelection{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+
+.responce {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+.message img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right: 30px;
+}
+
+.customParagraph {
+    word-wrap: normal;
+    
+}
+
+.message::after{
+    content: "";
+    clear: both;
+    display: table;
+
+}
+
+.time_right{
+    float: right;
+    color: #aaa;
+}
+
+.time_left{
+    float: left;
+    color: #9999;
+} 

@@ -1,0 +1,35 @@
+runtime: php74
+
+runtime_config:
+  document_root: .
+
+handlers:
+# Serve a directory as a static resource.
+- url: /assets
+  static_dir: assets
+- url: /images
+  static_dir: images
+
+
+# Serve images as static resources.
+- url: /(.+\.(gif|png|jpg|js|css|mp4|map|PNG))$
+  static_files: \1
+  upload: .+\.(gif|png|jpg|js|css|mp4|map|PNG)$
+
+# Serve your app through a front controller at index.php or public/index.php.
+
+  
+
+- url: /.*
+  script: auto
+  secure: always
+
+
+entrypoint:
+  serve  urlHandler.php
+
+
+# scaling settings
+# basic_scaling:
+#   max_instances: 11
+#   idle_timeout: 10m
